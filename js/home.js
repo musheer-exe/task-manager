@@ -15,6 +15,7 @@ authbutton.addEventListener('click', async function () {
 
 // Add new Task button 
 
+
 const addNewTaskButton = document.querySelector('.add-new-button')
 
 addNewTaskButton.addEventListener('click', function () {
@@ -24,14 +25,9 @@ addNewTaskButton.addEventListener('click', function () {
 
 
     // get user names
+    get_user_names()
 
-    const newTaskAssignee1 = document.querySelector('.assignee1');
 
-    newTaskAssignee1.addEventListener('focus', async function () {
-        const response = await getusers()
-
-        createuserdropdown(response)
-    })
 
 
 
@@ -57,8 +53,8 @@ addNewTaskButton.addEventListener('click', function () {
     })
 
     // popup close button 
-     closepopupFunc()
-    
+    closepopupFunc()
+
 
 })
 
@@ -76,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     console.log(response, 'response get tasks')
     // console.log(">>>>>>>>>>>>>>>>>>>>>>im response.result = ",response.result[0].task_severity)
     // console.log(response.result[0].task_title)
-     createTaskCardHtml(response.total_record, response.result, response)
+    createTaskCardHtml(response.total_record, response.result, response)
 
     // view task in modal 
 

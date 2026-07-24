@@ -69,5 +69,18 @@ async function gettasksassigned() {
     })
     const response = await getAssignedTasks.json();
     return response
-    
+
+}
+
+
+// get user names
+function get_user_names() {
+    const newTaskAssignee1 = document.querySelector('.assignee1');
+
+    newTaskAssignee1.addEventListener('focus', async function () {
+        const response = await getusers()
+
+        createuserdropdown(response)
+    })
+
 }

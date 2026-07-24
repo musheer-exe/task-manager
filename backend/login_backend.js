@@ -66,7 +66,6 @@ app.get('/', (req, res) => {
 // Validate session Expiry and auth decrytor
 
 function checkValidAuthKey(authkey) {
-    let test;
     console.log('im called every time >>>>>')
 
     return new Promise((resolve, reject) => {
@@ -210,7 +209,7 @@ app.post('/create/task', async (req, res) => {
 
     if (isValid) {
         const { assignee } = req.body;
-        console.log(assignee,'im assigneee>>>>>>>>>>>>>>>>>>>>>>')
+        console.log(assignee, 'im assigneee>>>>>>>>>>>>>>>>>>>>>>')
         db.query(
             'select * from validUser where username = ?', [assignee], (err, result) => {
                 if (err) return res.status(400).json({ success: false, message: 'DB Error' })
@@ -304,17 +303,34 @@ app.get('/get_user_names', async (req, res) => {
 })
 
 // patch task
-app.patch('/update_task',async (req,res)=>{
+app.patch('/update_task', async (req, res) => {
     const authkey = req.headers['auth-key'];
     console.log('testing Patch call response =', req.body)
     let isValid = await checkValidAuthKey(authkey)
-    if(isValid){
-        console.log('isValid = ',isValid)
+    if (isValid) {
+        console.log('isValid = ', isValid)
+        let { task_id, task_title, task_des, status, assignee, severity } = req.body;
+       let db = await db.query(
+            'update usertasks set task_title = ? , task_description = ? , task_status=? , task_severity = ? ,assignee = ?  where id = ?;', 
+            [task_title, task_des, status,severity , assignee,task_id],
+            (err, result)=>{
+                if(err){
+                    console.log(db,"im db qury")
+                    console.log("error in db query XXXXXX")
+                    return res.status(500).json({success:false , error: "failed to process db query"})
+                }else{
+                    console.log("query passed")
+                    return res.status(200).json({success:true,message:"Task updated successfully"})
+                }
+            }
+        )
     }
 
 })
 
 
-app.listen(3000, () => {
-    console.log('server ruuning on port 3000')
-})
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});

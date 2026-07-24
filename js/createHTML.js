@@ -166,9 +166,10 @@ function createpopupfunc(task_title, task_description, tasks_assigned, task_seve
     popup.appendChild(element)
 
     if (tasks_assigned) {
-        const value = document.querySelector('.assignee1');
-        value.value = tasks_assigned;
-        console.log(tasks_assigned)
+        // let value = document.querySelector('.assignee1');
+        // value.value = tasks_assigned;
+        // console.log(tasks_assigned)
+        createuserdropdown(tasks_assigned)
     }
 }
 
@@ -177,12 +178,24 @@ function createpopupfunc(task_title, task_description, tasks_assigned, task_seve
 function createuserdropdown(response) {
     const select = document.querySelector('.assignee1')
     select.innerHTML = '';
-    response.result.forEach(namesinArray => {
-        const options = document.createElement('option');
-        options.value = namesinArray.username;
-        options.textContent = namesinArray.username;
-        select.appendChild(options)
+    if (Array.isArray(response.result)) {
+        response.result.forEach(namesinArray => {
+            const options = document.createElement('option');
+            options.value = namesinArray.username;
+            options.textContent = namesinArray.username;
+            select.appendChild(options)
 
-    });
+        });
+
+    } else {
+        const options = document.createElement('option');
+        console.log("options = ", options)
+        options.value = response;
+        options.textContent = response;
+        select.appendChild(options)
+        get_user_names()
+
+
+    }
 
 }
