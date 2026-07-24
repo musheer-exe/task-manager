@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const db = require('../js/dbconnect');
 const cors = require('cors');
@@ -135,7 +136,7 @@ function checkValidAuthKey(authkey) {
 
 
 // get all users
-app.get('users', (req, res) => {
+app.get('/users', (req, res) => {
     db.query('SELECT * From validUser', (err, result) => {
         if (err) return res.send(err)
         res.json(result)
@@ -144,7 +145,7 @@ app.get('users', (req, res) => {
 
 // login api with session 
 
-app.post('taskly/login', (req, res) => {
+app.post('/taskly/login', (req, res) => {
     const { email, pass } = req.body;
     db.query(
         'SELECT * FROM validUser WHERE email = ? AND pass = ?',
@@ -167,7 +168,7 @@ app.post('taskly/login', (req, res) => {
 
 // create new user
 
-app.post('create/user', (req, res) => {
+app.post('/create/user', (req, res) => {
     const { username, email, pass, age } = req.body;
 
 
@@ -188,7 +189,7 @@ app.post('create/user', (req, res) => {
 // session api 
 
 
-app.get('session', async (req, res) => {
+app.get('/session', async (req, res) => {
 
     const authkey = req.headers['auth-key']
 
@@ -205,7 +206,7 @@ app.get('session', async (req, res) => {
 
 // Create Task API
 
-app.post('create/task', async (req, res) => {
+app.post('/create/task', async (req, res) => {
 
     const authkey = req.headers['auth-key'];
 
@@ -247,7 +248,7 @@ app.post('create/task', async (req, res) => {
 
 
 
-app.get('tasks_assigned', async (req, res) => {
+app.get('/tasks_assigned', async (req, res) => {
     const authkey = req.headers['auth-key'];
     console.log(authkey)
     let isValid = await checkValidAuthKey(authkey)
@@ -283,7 +284,7 @@ app.get('tasks_assigned', async (req, res) => {
 // get user names
 
 
-app.get('get_user_names', async (req, res) => {
+app.get('/get_user_names', async (req, res) => {
     const authkey = req.headers['auth-key'];
     console.log('testing>>>>>1')
     let isValid = await checkValidAuthKey(authkey);
@@ -308,7 +309,7 @@ app.get('get_user_names', async (req, res) => {
 })
 
 // patch task
-app.patch('update_task', async (req, res) => {
+app.patch('/update_task', async (req, res) => {
     const authkey = req.headers['auth-key'];
     console.log('testing Patch call response =', req.body)
     let isValid = await checkValidAuthKey(authkey)
