@@ -10,6 +10,11 @@ const { promises, resolve } = require('dns');
 const app = express();
 app.use(cors())
 app.use(express.json());
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "../HTML")));
+app.use("/css", express.static(path.join(__dirname, "../css")));
+app.use("/js", express.static(path.join(__dirname, "../js")));
 const algorithm = 'aes-256-cbc';
 const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
@@ -57,10 +62,9 @@ function decryption(authkey) {
 
 // check if server and db is up!
 
-app.get('/', (req, res) => {
-    res.send('node+ mysql running')
-})
-
+app.get("/", (req, res) => {
+ res.sendFile(path.join(__dirname, "../HTML/login.html"));
+});
 
 
 // Validate session Expiry and auth decrytor
@@ -310,17 +314,17 @@ app.patch('/update_task', async (req, res) => {
     if (isValid) {
         console.log('isValid = ', isValid)
         let { task_id, task_title, task_des, status, assignee, severity } = req.body;
-       let db = await db.query(
-            'update usertasks set task_title = ? , task_description = ? , task_status=? , task_severity = ? ,assignee = ?  where id = ?;', 
-            [task_title, task_des, status,severity , assignee,task_id],
-            (err, result)=>{
-                if(err){
-                    console.log(db,"im db qury")
+        let db = await db.query(
+            'update usertasks set task_title = ? , task_description = ? , task_status=? , task_severity = ? ,assignee = ?  where id = ?;',
+            [task_title, task_des, status, severity, assignee, task_id],
+            (err, result) => {
+                if (err) {
+                    console.log(db, "im db qury")
                     console.log("error in db query XXXXXX")
-                    return res.status(500).json({success:false , error: "failed to process db query"})
-                }else{
+                    return res.status(500).json({ success: false, error: "failed to process db query" })
+                } else {
                     console.log("query passed")
-                    return res.status(200).json({success:true,message:"Task updated successfully"})
+                    return res.status(200).json({ success: true, message: "Task updated successfully" })
                 }
             }
         )
@@ -332,5 +336,5 @@ app.patch('/update_task', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on ${PORT}`);
 });

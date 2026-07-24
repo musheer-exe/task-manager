@@ -6,7 +6,7 @@
     "start": "node backend/login_backend.js"
   },
   "dependencies": {
-    "cors": "^2.8.6",
+    "cors": "^2.8.5",
     "express": "^5.2.1",
     "mysql2": "^3.22.3"
   }
