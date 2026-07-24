@@ -26,7 +26,7 @@ signupbutton.addEventListener('click', async function () {
     const sessionKeyfromApi = response.auth_key;
     if (response.success = true) {
         localStorage.setItem('sessionkey', sessionKeyfromApi)
-        window.location.href = '../HTML/home.html';
+        window.location.href = '../home.html';
 
     }
     console.log(body)
