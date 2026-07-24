@@ -64,6 +64,7 @@ function decryption(authkey) {
 
 app.get("/", (req, res) => {
  res.sendFile(path.join(__dirname, "../HTML/login.html"));
+ console.log('im ok working app.get')
 });
 
 
