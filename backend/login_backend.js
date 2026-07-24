@@ -316,7 +316,7 @@ app.patch('/update_task', async (req, res) => {
     if (isValid) {
         console.log('isValid = ', isValid)
         let { task_id, task_title, task_des, status, assignee, severity } = req.body;
-        let db = await db.query(
+       db.query(
             'update usertasks set task_title = ? , task_description = ? , task_status=? , task_severity = ? ,assignee = ?  where id = ?;',
             [task_title, task_des, status, severity, assignee, task_id],
             (err, result) => {
