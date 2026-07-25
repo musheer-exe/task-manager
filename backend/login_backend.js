@@ -316,12 +316,12 @@ app.patch('/update_task', async (req, res) => {
     if (isValid) {
         console.log('isValid = ', isValid)
         let { task_id, task_title, task_des, status, assignee, severity } = req.body;
-       db.query(
-            'update usertasks set task_title = ? , task_description = ? , task_status=? , task_severity = ? ,assignee = ?  where id = ?;',
-            [task_title, task_des, status, severity, assignee, task_id],
+      db.query(
+    'UPDATE userTasks SET task_title = ?, task_description = ?, task_status = ?, task_severity = ?, assignee = ? WHERE id = ?',
+    [task_title, task_des, status, severity, assignee, task_id],    
             (err, result) => {
                 if (err) {
-                    console.log(db, "im db qury")
+                    console.log( "im db qury")
                     console.log("error in db query XXXXXX")
                     return res.status(500).json({ success: false, error: "failed to process db query" })
                 } else {
