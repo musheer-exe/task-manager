@@ -313,9 +313,10 @@ app.patch('/update_task', async (req, res) => {
     const authkey = req.headers['auth-key'];
     console.log('testing Patch call response =', req.body)
     let isValid = await checkValidAuthKey(authkey)
-    if (isValid) {
+    if (isValid) { 
         console.log('isValid = ', isValid)
         let { task_id, task_title, task_des, status, assignee, severity } = req.body;
+        console.log("assignee came from patch request = ",assignee)
       db.query(
     'UPDATE userTasks SET task_title = ?, task_description = ?, task_status = ?, task_severity = ?, assignee = ? WHERE id = ?',
     [task_title, task_des, status, severity, assignee, task_id],    
@@ -326,6 +327,7 @@ app.patch('/update_task', async (req, res) => {
                     return res.status(500).json({ success: false, error: "failed to process db query" })
                 } else {
                     console.log("query passed")
+                    console.log("result from db =/////////////////",result)
                     return res.status(200).json({ success: true, message: "Task updated successfully" })
                 }
             }
